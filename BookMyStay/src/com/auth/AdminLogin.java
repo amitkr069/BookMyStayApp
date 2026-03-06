@@ -2,13 +2,22 @@ package com.auth;
 
 import java.util.Scanner;
 
+import com.inventory.RoomInventory;
+import com.service.*;
 public class AdminLogin {
+	private RoomInventory inventory;
 
+    public AdminLogin(RoomInventory inventory) {
+        this.inventory = inventory;
+    }
     private final String USERNAME = "admin";
     private final String PASSWORD = "1234";
-
+    
+    Scanner sc = new Scanner(System.in);
+    
+    
     public boolean login() {
-        Scanner sc = new Scanner(System.in);
+        
 
         System.out.print("Enter Username: ");
         String user = sc.nextLine();
@@ -23,5 +32,75 @@ public class AdminLogin {
             System.out.println("Invalid Credentials!");
             return false;
         }
+    }
+    
+    public void adminAccess() {
+//    	RoomInventory inventory = new RoomInventory();
+//    	SearchService searchService = new SearchService();
+//        RoomInventory inventory = new RoomInventory();
+            while (true) {
+
+                System.out.println("\nAdmin Dashboard");
+                System.out.println("1. Add Room Type: (Single, Double, Suite)");
+                System.out.println("2. Update Room Count");
+                System.out.println("3. Update Room Price");
+                System.out.println("4. View Inventory");
+                System.out.println("5. Back");
+
+                System.out.print("Enter choice: ");
+                int choice = sc.nextInt();
+                sc.nextLine();
+
+                switch (choice) {
+
+                    case 1:
+
+                        System.out.print("Enter Room Type: ");
+                        String type = sc.nextLine();
+
+                        System.out.print("Enter Room Count: ");
+                        int count = sc.nextInt();
+
+                        System.out.print("Enter Price per Night: ");
+                        double price = sc.nextDouble();
+                        sc.nextLine();
+
+                        System.out.print("Enter Amenities: ");
+                        String amenities = sc.nextLine();
+
+                        inventory.addRoom(type, count, price, amenities);
+
+                        break;
+
+                    case 2:
+
+                        System.out.print("Enter Room Type: ");
+                        String rType = sc.nextLine();
+
+                        System.out.print("Enter New Count: ");
+                        int newCount = sc.nextInt();
+                        sc.nextLine();
+
+                        inventory.updateRoomCount(rType, newCount);
+
+                        break;
+                    case 3:
+                    	System.out.print("Enter Room Type: ");
+                        String type2 = sc.nextLine();
+
+                        System.out.print("Enter New Price: ");
+                        double newPrice = sc.nextDouble();
+
+                        inventory.updateRoomPrice(type2, newPrice);
+                        break;
+                    case 4:
+                        inventory.displayRooms();
+                        break;
+
+                    case 5:
+                        return;
+                }
+            }
+        
     }
 }
