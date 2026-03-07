@@ -1,9 +1,10 @@
 
 /**
  * @author Amit
- * @version 4.0
- * This is use Case 4;
- * Implemented the room allocation and reservation confirmation feature.
+ * @version 5.0
+ * This is use Case 5;
+ * Implemented the Add-on Service feature.
+ * The guest can have add-on's while room booking
  */
 package com.main;
 import com.auth.*;
