@@ -11,10 +11,11 @@ public class User {
 
         GuestService guestService = new GuestService();
         SearchService searchService = new SearchService();
+        BookingService booking = new BookingService();
 //        RoomInventory inventory = new RoomInventory();
         
-        
-        while (true) {
+        boolean user = true;
+        while (user) {
 
             System.out.println("\n1 Register");
             System.out.println("2 Login");
@@ -32,29 +33,44 @@ public class User {
                 case 2:
 
                     if (guestService.login()) {
+                    	boolean loggedIn = true;
 
-                        while (true) {
+                        while (loggedIn) {
 
                             System.out.println("\nGuest Dashboard");
                             System.out.println("1 View Available Rooms");
-                            System.out.println("2 Logout");
+                            System.out.println("2. Add Booking Request");
+                            System.out.println("3. Logout");
 
                             int c = sc.nextInt();
-
-                            if (c == 1) {
+                            sc.nextLine();
+                            
+                            switch(c) {
+                            case 1:
                                 searchService.showAvailableRooms(inventory);
+                                break;
+                            case 2:
+                            	System.out.print("Enter Your Name: ");
+                            	String name = sc.nextLine();
+                            	
+                            	System.out.print("Enter room type: ");
+                            	String roomType = sc.nextLine();
+                            	
+                            	booking.addRequest(name, roomType);
+                            	break;
+                            case 3:
+                            	loggedIn = false;
+                            	break;
                             }
 
-                            else if (c == 2) {
-                                break;
-                            }
                         }
                     }
 
                     break;
 
                 case 3:
-                    System.exit(0);
+                	user = false;
+                    break;
             }
         }
 	}
