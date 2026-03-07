@@ -53,7 +53,9 @@ public class AdminLogin {
                 System.out.println("4. View Inventory");
                 System.out.println("5. Process Bookings");
                 System.out.println("6. Add Service");
-                System.out.println("7. Back");
+                System.out.println("7. View Booking History");
+                System.out.println("8. Generate Report");
+                System.out.println("9. Back");
 
                 System.out.print("Enter choice: ");
                 int choice = sc.nextInt();
@@ -108,11 +110,18 @@ public class AdminLogin {
                     	bookingService.processBookings(inventory);
                     	break;
                     case 6:
-                    	System.out.print("Enter Srvice name: ");
+                    	System.out.print("Enter Service name: ");
                     	String serviceName = sc.nextLine();
                     	
                     	serviceManager.addService(serviceName);
+                    	break;
                     case 7:
+                    	bookingService.viewBookingHistory();
+                    	break;
+                    case 8:
+                    	bookingService.generateReport();
+                    	break;
+                    case 9:
                         return;
                 }
             }

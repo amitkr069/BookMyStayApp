@@ -1,9 +1,9 @@
 
 /**
  * @author Amit
- * @version 4.0
- * This is use Case 4;
- * Implemented the room allocation and reservation confirmation feature.
+ * @version 6.0
+ * This is use Case 6;
+ * Saving Booking history and reporting feature implemented
  */
 package com.main;
 import com.auth.*;

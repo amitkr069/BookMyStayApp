@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingService {
 	private Queue<Reservation> bookingQueue = new LinkedList<>();
@@ -17,6 +20,10 @@ public class BookingService {
 	private Set<String> BookedroomIds = new HashSet<>();
 	
 	private HashMap<String, Set<String>> roomAllocations = new HashMap<>();
+	
+	private Map<String, Reservation> reservations = new HashMap<>();
+	
+	private List<Reservation> bookingHistory = new ArrayList<>();
 	
 	public void addRequest(String guestName, String roomType, AddOnServiceManager serviceManager, Scanner sc) {
 		try {
@@ -74,12 +81,19 @@ public class BookingService {
 			
 			inventory.getRoomCount().put(type, available - 1);
 			
+			reservations.put(reservation.getReservationId(), reservation);
+			
+			bookingHistory.add(reservation);
+			
 			System.out.println("Reservation Confirmed | Guest: "
 					+ reservation.getGuestName()
 					+ " | Room Type: "
 					+ type
 					+ " | Room ID: "
-					+ roomId);
+					+ roomId
+					+ "Reservation ID: "
+					+ reservation.getReservationId()
+					);
 		}
 	}
 	
@@ -115,5 +129,81 @@ public class BookingService {
 		return "RES" + (1000+ new Random().nextInt(9000));
 	}
 	
+	public void viewBookings(String guestName, AddOnServiceManager serviceManager) {
+		boolean found = false;
+		
+		for(Reservation r: reservations.values()) {
+			if(r.getGuestName().equals(guestName));{
+				found = true;
+				
+				System.out.println("\nReservation ID: " + r.getReservationId());
+				System.out.println("Guest Name: " + r.getGuestName());
+				System.out.println("Room Type: " + r.getRoomType());
+				System.out.println("Status: " + r.getStatus());
+				
+				serviceManager.showRoomServices(r.getReservationId());
+				System.out.println();
+			}
+		}
+		if(!found) {
+			System.out.println("No Bookings found");
+			
+		}
+	}
+	
+	public void cancelBooking(String guestName, RoomInventory inventory) {
+		for(Reservation r: bookingHistory) {
+			if(r.getGuestName().equals(guestName)) {
+				r.cancelReservation();
+				
+				String roomType = r.getRoomType();
+				
+				int current = inventory.getRoomCount().get(roomType);
+				
+				inventory.getRoomCount().put(roomType, current + 1);
+				
+				System.out.println("Reservation cancelled for: " + guestName);
+				return;
+			}
+		}
+		
+		System.out.println("Reservation not found.");
+	}
+	
+	public void viewBookingHistory() {
+		if(bookingHistory.isEmpty()) {
+			System.out.println("No booking history found. ");
+			return;
+		}
+		
+		for(Reservation r: bookingHistory) {
+			System.out.println("Reservation ID: " + r.getReservationId()
+					+ " | Guest: " + r.getGuestName()
+					+ " | Room Type: " + r.getRoomType()
+					+ " | Room ID: " + r.getRoomId()
+					+ " | Status: " + r.getStatus()
+					);
+		}
+	}
+	
+	public void generateReport() {
+		Map<String, Integer> report = new HashMap<>();
+		
+		for(Reservation r: bookingHistory) {
+			if(r.getStatus().equals("CONFIRMED")) {
+				
+				report.put(r.getRoomType(), report.getOrDefault(r.getRoomType(), 0) + 1);
+			}
+		}
+		
+		System.out.println("\nBooking Report: ");
+		
+		for(String type: report.keySet()) {
+			System.out.println("Room Type: " 
+					+ type
+					+ " | Total Bookings: " 
+					+ report.get(type));
+		}
+	}
 	
 }
