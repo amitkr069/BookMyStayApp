@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class BookingService {
 	private Queue<Reservation> bookingQueue = new LinkedList<>();
@@ -17,7 +18,7 @@ public class BookingService {
 	
 	private HashMap<String, Set<String>> roomAllocations = new HashMap<>();
 	
-	public void addRequest(String guestName, String roomType) {
+	public void addRequest(String guestName, String roomType, AddOnServiceManager serviceManager, Scanner sc) {
 		try {
 			Thread.sleep(2000);
 		}
@@ -26,12 +27,17 @@ public class BookingService {
 			e.printStackTrace();
 		}
 		
+		String reservationId = generateReservationId();
 		
-		Reservation reservation = new Reservation(guestName, roomType);
+		
+		Reservation reservation = new Reservation(guestName, roomType, reservationId);
 		
 		bookingQueue.add(reservation);
 		
-		System.out.println("Booking request added to queue for " + guestName);
+		System.out.println("Booking request created for " + guestName);
+		System.out.println("Reservation Id: " + reservationId);
+		
+		serviceManager.selectServices(reservationId, sc);
 		
 	}
 	
@@ -103,6 +109,10 @@ public class BookingService {
 					+ roomAllocations.get(type)
 					);
 		}
+	}
+	
+	private String generateReservationId() {
+		return "RES" + (1000+ new Random().nextInt(9000));
 	}
 	
 	

@@ -19,6 +19,7 @@ public class BookMyStay {
 		RoomInventory inventory = new RoomInventory();
 		GuestService guestService = new GuestService();
         BookingService bookingService = new BookingService();
+        AddOnServiceManager serviceManager = new AddOnServiceManager();
 
         Scanner sc = new Scanner(System.in);
         
@@ -34,13 +35,13 @@ public class BookMyStay {
 	        
 	        switch (choice) {
 	        	case 1:
-	        		AdminLogin admin = new AdminLogin(inventory, bookingService);
+	        		AdminLogin admin = new AdminLogin(inventory, bookingService, serviceManager);
 	        		if(admin.login()) {
 	        			admin.adminAccess();
 	        		}
 	        		break;
 	        	case 2:
-	        		User.userLogin(inventory, guestService, bookingService);
+	        		User.userLogin(inventory, guestService, bookingService, serviceManager);
 	        		break;
 	        	case 3:
 	        		System.exit(0);

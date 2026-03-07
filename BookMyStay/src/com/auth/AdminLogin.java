@@ -8,10 +8,12 @@ import com.service.*;
 public class AdminLogin {
 	private RoomInventory inventory;
 	private BookingService bookingService;
+	private AddOnServiceManager serviceManager;
 
-    public AdminLogin(RoomInventory inventory, BookingService bookingService) {
+    public AdminLogin(RoomInventory inventory, BookingService bookingService, AddOnServiceManager serviceManager) {
         this.inventory = inventory;
         this.bookingService = bookingService;
+        this.serviceManager = serviceManager;
     }
     private final String USERNAME = "admin";
     private final String PASSWORD = "1234";
@@ -50,7 +52,8 @@ public class AdminLogin {
                 System.out.println("3. Update Room Price");
                 System.out.println("4. View Inventory");
                 System.out.println("5. Process Bookings");
-                System.out.println("6. Back");
+                System.out.println("6. Add Service");
+                System.out.println("7. Back");
 
                 System.out.print("Enter choice: ");
                 int choice = sc.nextInt();
@@ -105,6 +108,11 @@ public class AdminLogin {
                     	bookingService.processBookings(inventory);
                     	break;
                     case 6:
+                    	System.out.print("Enter Srvice name: ");
+                    	String serviceName = sc.nextLine();
+                    	
+                    	serviceManager.addService(serviceName);
+                    case 7:
                         return;
                 }
             }

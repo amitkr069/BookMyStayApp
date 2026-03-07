@@ -7,7 +7,7 @@ import com.service.*;
 
 public class User {
 	public static void userLogin(RoomInventory inventory, GuestService guestService,
-	        BookingService bookingService) {
+	        BookingService bookingService, AddOnServiceManager serviceManager) {
 		Scanner sc = new Scanner(System.in);
 
 //        GuestService guestService = new GuestService();
@@ -57,7 +57,7 @@ public class User {
                             	System.out.print("Enter room type: ");
                             	String roomType = sc.nextLine();
                             	
-                            	bookingService.addRequest(name, roomType);
+                            	bookingService.addRequest(name, roomType, serviceManager, sc);
                             	break;
                             case 3:
                             	return;
