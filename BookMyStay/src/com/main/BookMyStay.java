@@ -1,20 +1,24 @@
 
 /**
  * @author Amit
- * @version 3.0
- * This is use Case 3;
- * In this the user can request for room reservation.
+ * @version 4.0
+ * This is use Case 4;
+ * Implemented the room allocation and reservation confirmation feature.
  */
 package com.main;
 import com.auth.*;
 
 import java.util.Scanner;
 import com.inventory.*;
+import com.guest.*;
+import com.service.*;
 
 public class BookMyStay {
 	
 	public static void main(String[] args) {
 		RoomInventory inventory = new RoomInventory();
+		GuestService guestService = new GuestService();
+        BookingService bookingService = new BookingService();
 
         Scanner sc = new Scanner(System.in);
         
@@ -30,13 +34,13 @@ public class BookMyStay {
 	        
 	        switch (choice) {
 	        	case 1:
-	        		AdminLogin admin = new AdminLogin(inventory);
+	        		AdminLogin admin = new AdminLogin(inventory, bookingService);
 	        		if(admin.login()) {
 	        			admin.adminAccess();
 	        		}
 	        		break;
 	        	case 2:
-	        		User.userLogin(inventory);
+	        		User.userLogin(inventory, guestService, bookingService);
 	        		break;
 	        	case 3:
 	        		System.exit(0);

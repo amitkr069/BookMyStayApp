@@ -6,16 +6,17 @@ import com.inventory.*;
 import com.service.*;
 
 public class User {
-	public static void userLogin(RoomInventory inventory) {
+	public static void userLogin(RoomInventory inventory, GuestService guestService,
+	        BookingService bookingService) {
 		Scanner sc = new Scanner(System.in);
 
-        GuestService guestService = new GuestService();
+//        GuestService guestService = new GuestService();
         SearchService searchService = new SearchService();
-        BookingService booking = new BookingService();
+//        BookingService booking = new BookingService();
 //        RoomInventory inventory = new RoomInventory();
         
-        boolean user = true;
-        while (user) {
+//        boolean user = true;
+        while (true) {
 
             System.out.println("\n1 Register");
             System.out.println("2 Login");
@@ -33,9 +34,9 @@ public class User {
                 case 2:
 
                     if (guestService.login()) {
-                    	boolean loggedIn = true;
+//                    	boolean loggedIn = true;
 
-                        while (loggedIn) {
+                        while (true) {
 
                             System.out.println("\nGuest Dashboard");
                             System.out.println("1 View Available Rooms");
@@ -56,11 +57,10 @@ public class User {
                             	System.out.print("Enter room type: ");
                             	String roomType = sc.nextLine();
                             	
-                            	booking.addRequest(name, roomType);
+                            	bookingService.addRequest(name, roomType);
                             	break;
                             case 3:
-                            	loggedIn = false;
-                            	break;
+                            	return;
                             }
 
                         }
@@ -69,8 +69,7 @@ public class User {
                     break;
 
                 case 3:
-                	user = false;
-                    break;
+                	return;
             }
         }
 	}

@@ -1,14 +1,17 @@
 package com.auth;
 
+import com.service.*;
 import java.util.Scanner;
 
 import com.inventory.RoomInventory;
 import com.service.*;
 public class AdminLogin {
 	private RoomInventory inventory;
+	private BookingService bookingService;
 
-    public AdminLogin(RoomInventory inventory) {
+    public AdminLogin(RoomInventory inventory, BookingService bookingService) {
         this.inventory = inventory;
+        this.bookingService = bookingService;
     }
     private final String USERNAME = "admin";
     private final String PASSWORD = "1234";
@@ -38,6 +41,7 @@ public class AdminLogin {
 //    	RoomInventory inventory = new RoomInventory();
 //    	SearchService searchService = new SearchService();
 //        RoomInventory inventory = new RoomInventory();
+//    	BookingService booking = new BookingService();
             while (true) {
 
                 System.out.println("\nAdmin Dashboard");
@@ -45,7 +49,8 @@ public class AdminLogin {
                 System.out.println("2. Update Room Count");
                 System.out.println("3. Update Room Price");
                 System.out.println("4. View Inventory");
-                System.out.println("5. Back");
+                System.out.println("5. Process Bookings");
+                System.out.println("6. Back");
 
                 System.out.print("Enter choice: ");
                 int choice = sc.nextInt();
@@ -96,8 +101,10 @@ public class AdminLogin {
                     case 4:
                         inventory.displayRooms();
                         break;
-
                     case 5:
+                    	bookingService.processBookings(inventory);
+                    	break;
+                    case 6:
                         return;
                 }
             }
